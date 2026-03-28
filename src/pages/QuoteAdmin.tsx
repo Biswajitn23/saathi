@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard,
   FileText,
@@ -10,49 +10,86 @@ import {
   MoreVertical,
   CheckCircle2,
   Clock,
+  Trash2,
 } from "lucide-react";
-
-const initialQuotes = [
-  {
-    id: "QT-1092",
-    name: "Rajesh Kumar",
-    email: "rajesh@kumar.com",
-    project: "Commercial",
-    date: "28 Mar 2026",
-    status: "New",
-    budget: "Rs2.5Cr",
-  },
-  {
-    id: "QT-1091",
-    name: "Suresh Mehra",
-    email: "s.mehra@realty.com",
-    project: "Residential",
-    date: "27 Mar 2026",
-    status: "Processing",
-    budget: "Rs85L",
-  },
-  {
-    id: "QT-1090",
-    name: "Anita Desai",
-    email: "anita@indus.com",
-    project: "Industrial",
-    date: "25 Mar 2026",
-    status: "Completed",
-    budget: "Rs5.2Cr",
-  },
-  {
-    id: "QT-1089",
-    name: "Vikram Singh",
-    email: "v.singh@gmail.com",
-    project: "Renovation",
-    date: "24 Mar 2026",
-    status: "New",
-    budget: "Rs15L",
-  },
-];
+import quoteService, { type Quote } from "@/services/quoteService";
 
 const QuoteAdmin = () => {
-  const [quotes] = useState(initialQuotes);
+  const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+
+  // Load quotes on component mount
+  useEffect(() => {
+    const loadQuotes = async () => {
+      try {
+        setLoading(true);
+        const data = await quoteService.getAllQuotes();
+        setQuotes(data);
+        setFilteredQuotes(data);
+      } catch (error) {
+        console.error("Failed to load quotes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadQuotes();
+  }, []);
+
+  // Filter/search quotes
+  useEffect(() => {
+    let filtered = quotes;
+
+    if (searchTerm) {
+      filtered = filtered.filter(
+        (q) =>
+          q.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          q.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          q.id.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (statusFilter) {
+      filtered = filtered.filter((q) => q.status === statusFilter);
+    }
+
+    setFilteredQuotes(filtered);
+  }, [quotes, searchTerm, statusFilter]);
+
+  // Update quote status
+  const handleStatusChange = async (id: string, newStatus: Quote["status"]) => {
+    try {
+      await quoteService.updateQuoteStatus(id, newStatus);
+      const updated = await quoteService.getAllQuotes();
+      setQuotes(updated);
+    } catch (error) {
+      console.error("Failed to update quote:", error);
+    }
+  };
+
+  // Delete quote
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this quote?")) {
+      try {
+        await quoteService.deleteQuote(id);
+        const updated = await quoteService.getAllQuotes();
+        setQuotes(updated);
+      } catch (error) {
+        console.error("Failed to delete quote:", error);
+      }
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#f8f9fa]">
+        <p className="text-slate-500">Loading quotes...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-[#f8f9fa] text-slate-900 font-sans">
@@ -100,9 +137,9 @@ const QuoteAdmin = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {[
-            { label: "Total Inquiries", val: "1,284", icon: FileText, color: "text-blue-600" },
-            { label: "Pending Review", val: "42", icon: Clock, color: "text-orange-600" },
-            { label: "Conversion Rate", val: "18.5%", icon: CheckCircle2, color: "text-green-600" },
+            { label: "Total Inquiries", val: quotes.length, icon: FileText, color: "text-blue-600" },
+            { label: "Pending Review", val: quotes.filter((q) => q.status === "New").length, icon: Clock, color: "text-orange-600" },
+            { label: "Conversion Rate", val: `${Math.round((quotes.filter((q) => q.status === "Completed").length / Math.max(quotes.length, 1)) * 100)}%`, icon: CheckCircle2, color: "text-green-600" },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -126,13 +163,23 @@ const QuoteAdmin = () => {
               <input
                 type="text"
                 placeholder="Search Client or ID..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 text-xs border border-slate-200 rounded-sm focus:ring-1 focus:ring-orange-500 outline-none"
               />
             </div>
             <div className="flex gap-2">
-              <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-[10px] font-black uppercase tracking-widest">
-                <Filter size={14} /> Filter
-              </button>
+              <select
+                value={statusFilter || ""}
+                onChange={(e) => setStatusFilter(e.target.value || null)}
+                className="px-4 py-2 bg-white border border-slate-200 text-[10px] font-black uppercase tracking-widest rounded-sm focus:ring-1 focus:ring-orange-500 outline-none"
+              >
+                <option value="">All Status</option>
+                <option value="New">New</option>
+                <option value="Processing">Processing</option>
+                <option value="Completed">Completed</option>
+                <option value="Rejected">Rejected</option>
+              </select>
             </div>
           </div>
 
@@ -150,50 +197,62 @@ const QuoteAdmin = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {quotes.map((quote) => (
-                  <tr key={quote.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="p-4 text-xs font-black text-orange-600">{quote.id}</td>
-                    <td className="p-4">
-                      <div className="flex flex-col">
-                        <span className="text-xs font-bold text-slate-900">{quote.name}</span>
-                        <span className="text-[10px] text-slate-400">{quote.email}</span>
-                      </div>
-                    </td>
-                    <td className="p-4 text-[10px] font-bold uppercase text-slate-500">{quote.project}</td>
-                    <td className="p-4 text-xs font-black text-slate-900">{quote.budget}</td>
-                    <td className="p-4 text-xs text-slate-500 font-medium">{quote.date}</td>
-                    <td className="p-4">
-                      <span
-                        className={`px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-full ${
-                          quote.status === "New"
-                            ? "bg-orange-100 text-orange-600"
-                            : quote.status === "Processing"
-                              ? "bg-blue-100 text-blue-600"
-                              : "bg-green-100 text-green-600"
-                        }`}
-                      >
-                        {quote.status}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <button className="p-1 hover:bg-slate-200 rounded-sm transition-colors text-slate-400 hover:text-slate-900">
-                        <MoreVertical size={16} />
-                      </button>
+                {filteredQuotes.length > 0 ? (
+                  filteredQuotes.map((quote) => (
+                    <tr key={quote.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="p-4 text-xs font-black text-orange-600">{quote.id}</td>
+                      <td className="p-4">
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-slate-900">{quote.name}</span>
+                          <span className="text-[10px] text-slate-400">{quote.email}</span>
+                        </div>
+                      </td>
+                      <td className="p-4 text-[10px] font-bold uppercase text-slate-500">{quote.project}</td>
+                      <td className="p-4 text-xs font-black text-slate-900">{quote.budget}</td>
+                      <td className="p-4 text-xs text-slate-500 font-medium">{quote.date}</td>
+                      <td className="p-4">
+                        <select
+                          value={quote.status}
+                          onChange={(e) => handleStatusChange(quote.id, e.target.value as Quote["status"])}
+                          className={`px-2 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border-0 cursor-pointer ${
+                            quote.status === "New"
+                              ? "bg-orange-100 text-orange-600"
+                              : quote.status === "Processing"
+                                ? "bg-blue-100 text-blue-600"
+                                : quote.status === "Completed"
+                                  ? "bg-green-100 text-green-600"
+                                  : "bg-red-100 text-red-600"
+                          }`}
+                        >
+                          <option value="New">New</option>
+                          <option value="Processing">Processing</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Rejected">Rejected</option>
+                        </select>
+                      </td>
+                      <td className="p-4">
+                        <button
+                          onClick={() => handleDelete(quote.id)}
+                          className="p-1 hover:bg-red-100 rounded-sm transition-colors text-slate-400 hover:text-red-600"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} className="p-8 text-center text-slate-400">
+                      No quotes found.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
 
           <div className="p-4 border-t border-slate-100 flex justify-between items-center bg-slate-50/50">
-            <p className="text-[10px] font-bold text-slate-400 uppercase">Showing 4 of 42 Inquiries</p>
-            <div className="flex gap-2">
-              <button className="px-3 py-1 border border-slate-200 text-[10px] font-bold bg-white disabled:opacity-50" disabled>
-                PREV
-              </button>
-              <button className="px-3 py-1 border border-slate-200 text-[10px] font-bold bg-white">NEXT</button>
-            </div>
+            <p className="text-[10px] font-bold text-slate-400 uppercase">Showing {filteredQuotes.length} of {quotes.length} Inquiries</p>
           </div>
         </div>
       </main>
