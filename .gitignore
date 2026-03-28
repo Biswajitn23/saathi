@@ -18,6 +18,19 @@ dist-ssr
 .idea
 .DS_Store
 *.suo
+
+# Environment variables - NEVER COMMIT
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Backend server (optional deployment)
+backend.js
+
+# Optional: Keep these for reference only, remove credentials before committing
+# backend/
+# server/
 *.ntvs*
 *.njsproj
 *.sln
