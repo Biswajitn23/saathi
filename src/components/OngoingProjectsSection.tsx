@@ -19,15 +19,15 @@ const OngoingProjects = () => {
   };
 
   return (
-    <section className="py-20 bg-slate-900 text-white">
-      <div className="container mx-auto px-6">
+    <section className="py-16 md:py-20 bg-slate-900 text-white">
+      <div className="container mx-auto px-4 sm:px-6">
         
         {/* Simple Header */}
         <div className="mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">
             Ongoing <span className="text-orange-500">Projects</span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-xl">
+          <p className="text-slate-400 text-base md:text-lg max-w-xl">
             We are hard at work building new spaces across the country. 
             Take a look at what we are building right now.
           </p>
@@ -40,7 +40,7 @@ const OngoingProjects = () => {
             <video
               ref={videoRef}
               autoPlay muted loop playsInline
-              className="w-full h-[450px] object-cover"
+              className="w-full h-[260px] sm:h-[360px] md:h-[450px] object-cover"
             >
               <source src="/Construction.mp4" type="video/mp4" />
             </video>
@@ -48,7 +48,7 @@ const OngoingProjects = () => {
             {/* Simple Play/Pause */}
             <button 
               onClick={handleVideo}
-              className="absolute bottom-6 right-6 bg-orange-500 p-4 rounded-full hover:scale-110 transition"
+              className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 bg-orange-500 p-3 sm:p-4 rounded-full hover:scale-110 transition"
             >
               {isPlaying ? <Pause size={24} /> : <Play size={24} />}
             </button>

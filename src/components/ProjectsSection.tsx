@@ -58,8 +58,8 @@ const ProjectGallery = () => {
     : projects.filter((p) => p.category === filter);
 
   return (
-    <section id="projects" className="py-24 bg-white text-slate-900">
-      <div className="container mx-auto px-6">
+    <section id="projects" className="py-20 md:py-24 bg-white text-slate-900">
+      <div className="container mx-auto px-4 sm:px-6">
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
@@ -71,12 +71,12 @@ const ProjectGallery = () => {
           </div>
 
           {/* Filter Tabs - Architectural Style */}
-          <div className="flex border-b border-slate-200">
+          <div className="flex border-b border-slate-200 overflow-x-auto max-w-full">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-6 py-3 text-xs font-black uppercase tracking-widest transition-all relative ${
+                className={`px-4 sm:px-6 py-3 text-[10px] sm:text-xs font-black uppercase tracking-[0.14em] sm:tracking-widest transition-all relative whitespace-nowrap ${
                   filter === cat ? "text-orange-600" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
@@ -106,7 +106,7 @@ const ProjectGallery = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4 }}
-                className="group relative h-[400px] overflow-hidden bg-slate-100 rounded-sm"
+                className="group relative h-[320px] sm:h-[400px] overflow-hidden bg-slate-100 rounded-sm"
               >
                 <img
                   src={project.image}
@@ -145,8 +145,8 @@ const ProjectGallery = () => {
         </motion.div>
 
         {/* View More Button */}
-        <div className="mt-16 text-center">
-          <button className="px-12 py-5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.3em] hover:bg-orange-600 transition-all">
+        <div className="mt-14 md:mt-16 text-center">
+          <button className="px-8 sm:px-12 py-4 sm:py-5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] hover:bg-orange-600 transition-all">
             See More Projects
           </button>
         </div>

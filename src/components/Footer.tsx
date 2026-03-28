@@ -39,7 +39,7 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <img src={logo} alt="Saathi Group" className="h-16 mb-6" />
+              <img src={logo} alt="Saathi Group" className="h-16 w-auto mb-6 scale-[1.45] origin-left" />
               <p className="text-slate-400 text-sm leading-relaxed max-w-xs mb-8">
                 Pioneering excellence in infrastructure since 2012. We build the structures that shape the future of modern India.
               </p>
@@ -117,6 +117,12 @@ const Footer = () => {
               <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-white transition-colors">Privacy</a>
               <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-white transition-colors">Terms</a>
             </div>
+            <p className="text-[10px] sm:text-[11px] font-bold text-slate-500 md:border-l md:border-slate-700 md:pl-6">
+              <span className="text-orange-500">✦</span> Digital experience crafted by{" "}
+              <a href="https://www.linkedin.com/in/biswajit-nayak-9a0b97321/" target="_blank" rel="noopener noreferrer" className="text-orange-500 font-black hover:text-orange-400 transition-colors border-b-2 border-dotted border-orange-500">Biswajit</a>
+              {" "}&{" "}
+              <a href="https://www.linkedin.com/in/nitin-singh-731793275/" target="_blank" rel="noopener noreferrer" className="text-orange-500 font-black hover:text-orange-400 transition-colors border-b-2 border-dotted border-orange-500">Nitin</a>
+            </p>
           </div>
 
           <button

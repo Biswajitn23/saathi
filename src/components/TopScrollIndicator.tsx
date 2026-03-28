@@ -1,17 +1,27 @@
-import { motion, useScroll, useSpring } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const TopScrollIndicator = () => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 30,
-    mass: 0.2,
-  });
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    let rafId: number;
+
+    const updateProgress = () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = window.scrollY;
+      const newProgress = docHeight > 0 ? (scrolled / docHeight) * 100 : 0;
+      setProgress(newProgress);
+      rafId = requestAnimationFrame(updateProgress);
+    };
+
+    rafId = requestAnimationFrame(updateProgress);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] bg-orange-500/90 origin-left z-[9999]"
-      style={{ scaleX }}
+    <div
+      className="fixed top-0 left-0 h-[2px] bg-orange-500/90 z-[9999]"
+      style={{ width: `${progress}%` }}
     />
   );
 };
