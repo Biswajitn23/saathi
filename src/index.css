@@ -72,19 +72,19 @@
   }
 }
 
-/* Smooth scrolling */
+/* Lenis manages smooth scrolling globally */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
-/* Custom scrollbar */
+/* Hide side scrollbar and use top indicator */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
-}
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary));
-  border-radius: 4px;
+  width: 0;
+  height: 0;
 }
