@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, Twitter, ArrowUp, Mail, ExternalLink } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter, ArrowUp, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
 
@@ -8,7 +8,7 @@ const Footer = () => {
   };
 
   const navLinks = [
-    { name: "Home", href: "#" },
+    { name: "Home", href: "#home" },
     { name: "About Us", href: "#about" },
     { name: "Projects", href: "#projects" },
     { name: "Insights", href: "#blog" },
@@ -39,7 +39,7 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <img src={logo} alt="Saathi Group" className="h-16 mb-6 brightness-0 invert" />
+              <img src={logo} alt="Saathi Group" className="h-16 mb-6" />
               <p className="text-slate-400 text-sm leading-relaxed max-w-xs mb-8">
                 Pioneering excellence in infrastructure since 2012. We build the structures that shape the future of modern India.
               </p>
@@ -89,29 +89,22 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter / Contact */}
+          {/* Contact Details */}
           <div className="lg:col-span-3">
             <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6 border-l-2 border-orange-600 pl-3">
-              Newsletter
+              Contact
             </h4>
-            <p className="text-xs text-slate-500 mb-6 font-bold leading-relaxed uppercase tracking-tighter">
-              Get weekly updates on our live projects and tenders.
-            </p>
-            <div className="relative group">
-              <input 
-                type="email" 
-                placeholder="EMAIL ADDRESS" 
-                className="w-full bg-white/5 border border-white/10 rounded-sm py-4 pl-4 pr-12 text-[10px] font-black tracking-widest outline-none focus:border-orange-500 transition-all placeholder:text-slate-600"
-              />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-orange-600 p-2 rounded-sm hover:bg-orange-500 transition-colors">
-                <Mail className="w-4 h-4 text-white" />
-              </button>
-            </div>
-            <div className="mt-8 pt-8 border-t border-white/5 space-y-2">
-              <p className="text-xs font-black text-white">+91 123 456 7890</p>
-              <p className="text-xs font-bold text-slate-500">info@saathigroup.com</p>
+            <div className="space-y-3 text-sm">
+              <p className="text-white font-black">+91 123 456 7890</p>
+              <p className="text-slate-400 font-bold">info@saathigroup.com</p>
+              <p className="text-slate-500 font-bold leading-relaxed">
+                Saathi Group HQ, Sector 18,
+                <br />
+                Navi Mumbai, Maharashtra
+              </p>
             </div>
           </div>
+
         </div>
 
         {/* Bottom Bar */}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import logo from "@/assets/logo.png";
@@ -16,31 +16,38 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    // Detects when user leaves the Hero section
+    const onScroll = () => setScrolled(window.scrollY > 100);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <nav
-      className={`fixed top-0 z-50 transition-all duration-700 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
         scrolled 
-          ? "left-[49%] -translate-x-1/2 md:mx-4 md:mt-4 mx-2 mt-2 md:w-[calc(100%-2rem)] w-[calc(100%-1rem)] bg-accent/95 backdrop-blur-md shadow-2xl md:rounded-2xl rounded-xl" 
-          : "left-0 right-0 w-full bg-transparent mx-0 mt-0 rounded-none shadow-none"
+          ? "mt-4 mx-auto w-[95%] md:w-[90%] bg-slate-900/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 py-2" 
+          : "mt-0 w-full bg-transparent py-6 border-b border-transparent"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between py-0 px-4">
-        <a href="#home" className="flex items-center gap-2">
-          <img src={logo} alt="Saathi Group" className="h-24 w-auto" />
+      <div className="container mx-auto flex items-center justify-between px-6">
+        
+        {/* Logo - Inverted for Dark Backgrounds */}
+        <a href="#home" className="shrink-0 transition-transform hover:scale-105">
+          <img 
+            src={logo} 
+            alt="Saathi Group" 
+            className="h-14 md:h-16 w-auto" 
+          />
         </a>
 
-        {/* Desktop */}
-        <ul className="hidden lg:flex items-center gap-8">
+        {/* Desktop Navigation - Exact Links Requested */}
+        <ul className="hidden lg:flex items-center gap-10">
           {navLinks.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="text-sm font-medium tracking-wide text-primary-foreground hover:text-primary transition-colors"
+                className="text-[11px] font-black uppercase tracking-[0.2em] text-white hover:text-orange-500 transition-colors"
               >
                 {l.label}
               </a>
@@ -48,58 +55,59 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <div className="hidden lg:flex items-center gap-4">
+        {/* Desktop Actions - Exact Text Requested */}
+        <div className="hidden lg:flex items-center gap-8">
           <a
             href="tel:+911234567890"
-            className="flex items-center gap-2 text-sm font-bold bg-white text-primary px-4 py-2 rounded-lg shadow-lg"
+            className="flex items-center gap-2 text-xs font-bold text-white hover:text-orange-500 transition-colors"
           >
-            <Phone className="h-4 w-4" />
+            <Phone className="h-4 w-4 text-orange-500" />
             +91 123 456 7890
           </a>
           <a
             href="#contact"
-            className="bg-primary text-primary-foreground px-5 py-2 rounded text-sm font-semibold hover:bg-primary/90 transition"
+            className="bg-orange-600 text-white px-6 py-3 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all shadow-lg"
           >
             Get a Quote
           </a>
         </div>
 
-        {/* Mobile toggle */}
+        {/* Mobile Toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden text-primary-foreground"
+          className="lg:hidden text-white p-2"
           aria-label="Toggle menu"
         >
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {mobileOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden bg-accent/95 backdrop-blur-md overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-0 right-0 mt-2 mx-2 bg-slate-900 rounded-2xl border border-white/10 shadow-2xl overflow-hidden lg:hidden"
           >
-            <ul className="flex flex-col gap-4 px-6 py-6">
+            <ul className="flex flex-col gap-6 p-8">
               {navLinks.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-primary-foreground hover:text-primary transition-colors font-medium"
+                    className="text-white text-lg font-black uppercase tracking-tighter hover:text-orange-600 transition-colors"
                   >
                     {l.label}
                   </a>
                 </li>
               ))}
-              <li>
+              <li className="pt-4 border-t border-white/10">
                 <a
                   href="#contact"
                   onClick={() => setMobileOpen(false)}
-                  className="inline-block bg-primary text-primary-foreground px-5 py-2 rounded text-sm font-semibold"
+                  className="block bg-orange-600 text-white px-8 py-4 rounded-sm text-xs font-black uppercase tracking-widest text-center"
                 >
                   Get a Quote
                 </a>

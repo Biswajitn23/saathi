@@ -42,7 +42,7 @@ const OngoingProjects = () => {
               autoPlay muted loop playsInline
               className="w-full h-[450px] object-cover"
             >
-              <source src="https://videos.pexels.com/video-files/3121459/3121459-uhd_2560_1440_24fps.mp4" type="video/mp4" />
+              <source src="/Construction.mp4" type="video/mp4" />
             </video>
             
             {/* Simple Play/Pause */}
@@ -53,9 +53,6 @@ const OngoingProjects = () => {
               {isPlaying ? <Pause size={24} /> : <Play size={24} />}
             </button>
 
-            <div className="absolute top-6 left-6 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-lg">
-              <p className="text-xs font-bold tracking-widest text-orange-500 uppercase">Live Update</p>
-            </div>
           </div>
 
           {/* Project List: Simple Progress Bars */}

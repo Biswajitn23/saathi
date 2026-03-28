@@ -9,46 +9,49 @@ import {
 } from "lucide-react";
 
 const services = [
-  { icon: Building2, title: "Civil Construction", desc: "Robust civil infrastructure built with precision and lasting materials." },
-  { icon: Home, title: "Residential Projects", desc: "Dream homes crafted with attention to every detail and comfort." },
-  { icon: Building, title: "Commercial Buildings", desc: "Modern commercial spaces designed for productivity and aesthetics." },
-  { icon: Factory, title: "Industrial Construction", desc: "Large-scale industrial facilities engineered for efficiency." },
-  { icon: Hammer, title: "Renovation & Remodeling", desc: "Transforming spaces with expert renovation and upgrades." },
-  { icon: PenTool, title: "Architectural Design", desc: "Innovative architectural plans that blend form and function." },
+  { icon: Building2, title: "Civil Work" },
+  { icon: Home, title: "New Homes" },
+  { icon: Building, title: "Offices" },
+  { icon: Factory, title: "Factories" },
+  { icon: Hammer, title: "Repairs" },
+  { icon: PenTool, title: "Design" },
 ];
 
 const ServicesSection = () => (
-  <section id="services" className="py-20 bg-background">
+  <section id="services" className="py-20 bg-white">
     <div className="container mx-auto px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-center mb-14"
-      >
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-          PRODUCTS AND <span className="text-primary">SERVICES</span>
+      
+      {/* Small & Simple Header */}
+      <div className="mb-12 border-l-4 border-orange-600 pl-6">
+        <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
+          Our <span className="text-orange-600">Services</span>
         </h2>
-        <p className="text-muted-foreground max-w-xl mx-auto">
-          Explore our wide range of construction services and products. Every structure
-          is crafted to deliver strength, style, and longevity.
+        <p className="text-slate-500 text-sm font-bold uppercase tracking-widest mt-1">
+          Quality work at every scale
         </p>
-      </motion.div>
+      </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+      {/* Small Industrial Boxes */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {services.map((s, i) => (
           <motion.div
             key={s.title}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="group bg-card border border-border rounded-lg p-6 text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+            transition={{ delay: i * 0.05 }}
+            className="group bg-slate-50 border border-slate-200 aspect-square flex flex-col items-center justify-center p-4 hover:bg-orange-600 hover:border-orange-600 transition-all duration-300 cursor-default"
           >
-            <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary transition-colors">
-              <s.icon className="h-7 w-7 text-primary group-hover:text-primary-foreground transition-colors" />
+            <div className="mb-4 text-slate-900 group-hover:text-white transition-colors">
+              <s.icon size={32} strokeWidth={1.5} />
             </div>
-            <h3 className="font-display text-sm font-semibold text-foreground">{s.title}</h3>
+            
+            <h3 className="text-[10px] md:text-xs font-black text-slate-900 uppercase tracking-widest group-hover:text-white transition-colors text-center">
+              {s.title}
+            </h3>
+
+            {/* Subtle Detail: Corner accent that appears on hover */}
+            <div className="absolute top-2 right-2 w-1 h-1 bg-white opacity-0 group-hover:opacity-100 transition-opacity" />
           </motion.div>
         ))}
       </div>
