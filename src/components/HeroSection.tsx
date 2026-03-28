@@ -15,7 +15,7 @@ const HeroSection = () => {
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source
-          src="https://videos.pexels.com/video-files/2519660/2519660-uhd_2560_1440_24fps.mp4"
+          src="https://videos.pexels.com/video-files/5765826/5765826-uhd_2560_1440_24fps.mp4"
           type="video/mp4"
         />
       </video>
@@ -41,8 +41,8 @@ const HeroSection = () => {
           </h1>
 
           <p className="text-lg text-primary-foreground/80 mb-8 max-w-lg font-body leading-relaxed">
-            Saathi Group is your trusted partner in construction excellence. With over a decade of
-            experience, we deliver durable, innovative, and high-quality projects — on time, every time.
+            Delivering durable, high-performance construction solutions with precision and trust.
+            With over a decade of experience, we build projects that stand the test of time.
           </p>
 
           <div className="flex flex-wrap gap-4">
