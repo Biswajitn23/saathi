@@ -8,7 +8,6 @@ const navLinks = [
   { label: "Services", href: "#services" },
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
-  { label: "Testimonials", href: "#testimonials" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -24,13 +23,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-accent/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+      className={`fixed top-0 z-50 transition-all duration-700 ease-out ${
+        scrolled 
+          ? "left-[49%] -translate-x-1/2 md:mx-4 md:mt-4 mx-2 mt-2 md:w-[calc(100%-2rem)] w-[calc(100%-1rem)] bg-accent/95 backdrop-blur-md shadow-2xl md:rounded-2xl rounded-xl" 
+          : "left-0 right-0 w-full bg-transparent mx-0 mt-0 rounded-none shadow-none"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between py-3 px-4">
+      <div className="container mx-auto flex items-center justify-between py-0 px-4">
         <a href="#home" className="flex items-center gap-2">
-          <img src={logo} alt="Saathi Group" className="h-10 w-auto" />
+          <img src={logo} alt="Saathi Group" className="h-24 w-auto" />
         </a>
 
         {/* Desktop */}
@@ -50,9 +51,9 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-4">
           <a
             href="tel:+911234567890"
-            className="flex items-center gap-2 text-sm text-primary-foreground"
+            className="flex items-center gap-2 text-sm font-bold bg-white text-primary px-4 py-2 rounded-lg shadow-lg"
           >
-            <Phone className="h-4 w-4 text-primary" />
+            <Phone className="h-4 w-4" />
             +91 123 456 7890
           </a>
           <a
